@@ -2,8 +2,9 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DataService} from './services/data.service';
 import {HttpClient} from '@angular/common/http';
 import {MatDialog, MatPaginator, MatSort} from '@angular/material';
-import {Issue} from './models/issue';
-import {Observable} from 'rxjs/Observable';
+
+import {Item} from './models/item';
+import {Observable} from 'rxjs/Rx';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {DataSource} from '@angular/cdk/collections';
 import 'rxjs/add/observable/merge';
@@ -21,7 +22,7 @@ import {DeleteDialogComponent} from './dialogs/delete/delete.dialog.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  displayedColumns = ['id', 'title', 'state', 'url', 'created_at', 'updated_at', 'actions'];
+  displayedColumns = ['id','name', 'price', 'description', 'purchase_date','actions'];
   exampleDatabase: DataService | null;
   dataSource: ExampleDataSource | null;
   index: number;
@@ -43,9 +44,9 @@ export class AppComponent implements OnInit {
     this.loadData();
   }
 
-  addNew(issue: Issue) {
+  addNew(Item: Item) {
     const dialogRef = this.dialog.open(AddDialogComponent, {
-      data: {issue: issue }
+      data: {Item: Item }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -70,7 +71,7 @@ export class AppComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {
         // When using an edit things are little different, firstly we find record inside DataService by id
-        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.item_id === this.id);
         // Then you update that record using data from dialogData (values you enetered)
         this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
         // And lastly refresh table
@@ -88,7 +89,7 @@ export class AppComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {
-        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.item_id === this.id);
         // for delete we use splice in order to remove single object from DataService
         this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
         this.refreshTable();
@@ -130,7 +131,7 @@ export class AppComponent implements OnInit {
 }
 
 
-export class ExampleDataSource extends DataSource<Issue> {
+export class ExampleDataSource extends DataSource<Item> {
   _filterChange = new BehaviorSubject('');
 
   get filter(): string {
@@ -141,8 +142,8 @@ export class ExampleDataSource extends DataSource<Issue> {
     this._filterChange.next(filter);
   }
 
-  filteredData: Issue[] = [];
-  renderedData: Issue[] = [];
+  filteredData: Item[] = [];
+  renderedData: Item[] = [];
 
   constructor(public _exampleDatabase: DataService,
               public _paginator: MatPaginator,
@@ -153,7 +154,7 @@ export class ExampleDataSource extends DataSource<Issue> {
   }
 
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<Issue[]> {
+  connect(): Observable<Item[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this._exampleDatabase.dataChange,
@@ -162,12 +163,12 @@ export class ExampleDataSource extends DataSource<Issue> {
       this._paginator.page
     ];
 
-    this._exampleDatabase.getAllIssues();
+    this._exampleDatabase.getAllItems();
 
     return Observable.merge(...displayDataChanges).map(() => {
       // Filter data
-      this.filteredData = this._exampleDatabase.data.slice().filter((issue: Issue) => {
-        const searchStr = (issue.id + issue.title + issue.url + issue.created_at).toLowerCase();
+      this.filteredData = this._exampleDatabase.data.slice().filter((Item: Item) => {
+        const searchStr = (Item.item_id + Item.item_name + Item.item_price + Item.description + Item.purchase_date).toLowerCase();
         return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
       });
 
@@ -186,22 +187,21 @@ export class ExampleDataSource extends DataSource<Issue> {
 
 
   /** Returns a sorted copy of the database data. */
-  sortData(data: Issue[]): Issue[] {
+  sortData(data: Item[]): Item[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
 
     return data.sort((a, b) => {
-      let propertyA: number | string = '';
+      let propertyA: number | string = '' ;
       let propertyB: number | string = '';
 
       switch (this._sort.active) {
-        case 'id': [propertyA, propertyB] = [a.id, b.id]; break;
-        case 'title': [propertyA, propertyB] = [a.title, b.title]; break;
-        case 'state': [propertyA, propertyB] = [a.state, b.state]; break;
-        case 'url': [propertyA, propertyB] = [a.url, b.url]; break;
-        case 'created_at': [propertyA, propertyB] = [a.created_at, b.created_at]; break;
-        case 'updated_at': [propertyA, propertyB] = [a.updated_at, b.updated_at]; break;
+        case 'id': [propertyA, propertyB] = [a.item_id, b.item_id]; break;
+        case 'name': [propertyA, propertyB] = [a.item_name, b.item_name]; break;
+        case 'price': [propertyA, propertyB] = [a.item_price, b.item_price]; break;
+        case 'description': [propertyA, propertyB] = [a.description, b.description]; break;
+        case 'purchase_date': [propertyA, propertyB] = [a.purchase_date, b.purchase_date]; break;
       }
 
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
