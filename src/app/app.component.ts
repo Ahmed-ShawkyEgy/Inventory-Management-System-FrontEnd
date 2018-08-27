@@ -82,11 +82,11 @@ export class AppComponent implements OnInit {
     });
   }
 
-  deleteItem(i: number, id: number, title: string, state: string, url: string) {
+  deleteItem(i: number, id: number, name: string, price: number, description: string) {
     this.index = i;
     this.id = id;
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: {id: id, title: title, state: state, url: url}
+      data: {id: id, name:name, price: price, description: description}
     });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -5,7 +5,7 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 
 @Injectable()
 export class DataService {
-  private readonly API_URL = 'http://localhost:8080/api/items';
+  private readonly API_URL = 'http://localhost:8080/api/items/';
   private httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
@@ -89,7 +89,6 @@ export class DataService {
   // DELETE METHOD
   deleteItem(id: number): void {
     this.httpClient.delete(this.API_URL + id,this.httpOptions).subscribe(data => {
-      console.log(data['']);
         // this.toasterService.showToaster('Successfully deleted', 3000);
         console.log('Successfully deleted');
       },
