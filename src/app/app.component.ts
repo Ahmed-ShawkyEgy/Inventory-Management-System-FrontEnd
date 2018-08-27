@@ -169,7 +169,7 @@ export class ExampleDataSource extends DataSource<Item> {
     return Observable.merge(...displayDataChanges).map(() => {
       // Filter data
       this.filteredData = this._exampleDatabase.data.slice().filter((Item: Item) => {
-        const searchStr = (Item.id + Item.name + Item.price + Item.description + Item.purchase_date).toLowerCase();
+        const searchStr = (Item.name + Item.price + Item.description + Item.purchase_date+Item.owner_email+Item.owner_first_name+Item.owner_last_name).toLowerCase();
         return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
       });
 
@@ -203,6 +203,9 @@ export class ExampleDataSource extends DataSource<Item> {
         case 'price': [propertyA, propertyB] = [a.price, b.price]; break;
         case 'description': [propertyA, propertyB] = [a.description, b.description]; break;
         case 'purchase_date': [propertyA, propertyB] = [a.purchase_date, b.purchase_date]; break;
+        case 'owner_email': [propertyA, propertyB] = [a.purchase_date, b.purchase_date]; break;
+        case 'owner_first_name': [propertyA, propertyB] = [a.purchase_date, b.purchase_date]; break;
+        case 'owner_last_name': [propertyA, propertyB] = [a.purchase_date, b.purchase_date]; break;
       }
 
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
