@@ -59,17 +59,7 @@ export class DataService {
 
     // ADD, POST METHOD
     addItem(item: Item): void {
-    console.log('Service');
-    console.log(item);
 
-//     var ii = {
-// 	"name":"Live Box 2",
-// 	"description":"Live-Box-1.02",
-// 	"price":7000,
-// 	"purchase_date":"2018-08-03"
-// };
-
-// console.log(ii);
     this.httpClient.post(this.API_URL, item,this.httpOptions).subscribe(data => {
       this.dialogData = item;
       // this.toasterService.showToaster('Successfully added', 3000);
