@@ -35,6 +35,9 @@ export class AddDialogComponent {
   }
 
   public confirmAdd(): void {
+    // delete this.data['Item'];
+    console.log('Add dialog ');
+    console.log(this.data);
     this.dataService.addItem(this.data);
   }
 }

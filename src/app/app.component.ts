@@ -53,7 +53,9 @@ export class AppComponent implements OnInit {
       if (result === 1) {
         // After dialog is closed we're doing frontend updates
         // For add we're just pushing a new row inside DataService
-        this.exampleDatabase.dataChange.value.push(this.dataService.getDialogData());
+
+        // this.exampleDatabase.dataChange.value.push(this.dataService.getDialogData());
+        this.refresh();
         this.refreshTable();
       }
     });
@@ -71,7 +73,7 @@ export class AppComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {
         // When using an edit things are little different, firstly we find record inside DataService by id
-        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.item_id === this.id);
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
         // Then you update that record using data from dialogData (values you enetered)
         this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
         // And lastly refresh table
@@ -89,7 +91,7 @@ export class AppComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {
-        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.item_id === this.id);
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
         // for delete we use splice in order to remove single object from DataService
         this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
         this.refreshTable();
@@ -168,7 +170,7 @@ export class ExampleDataSource extends DataSource<Item> {
     return Observable.merge(...displayDataChanges).map(() => {
       // Filter data
       this.filteredData = this._exampleDatabase.data.slice().filter((Item: Item) => {
-        const searchStr = (Item.item_id + Item.item_name + Item.item_price + Item.description + Item.purchase_date).toLowerCase();
+        const searchStr = (Item.id + Item.name + Item.price + Item.description + Item.purchase_date).toLowerCase();
         return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
       });
 
@@ -197,9 +199,9 @@ export class ExampleDataSource extends DataSource<Item> {
       let propertyB: number | string = '';
 
       switch (this._sort.active) {
-        case 'id': [propertyA, propertyB] = [a.item_id, b.item_id]; break;
-        case 'name': [propertyA, propertyB] = [a.item_name, b.item_name]; break;
-        case 'price': [propertyA, propertyB] = [a.item_price, b.item_price]; break;
+        case 'id': [propertyA, propertyB] = [a.id, b.id]; break;
+        case 'name': [propertyA, propertyB] = [a.name, b.name]; break;
+        case 'price': [propertyA, propertyB] = [a.price, b.price]; break;
         case 'description': [propertyA, propertyB] = [a.description, b.description]; break;
         case 'purchase_date': [propertyA, propertyB] = [a.purchase_date, b.purchase_date]; break;
       }

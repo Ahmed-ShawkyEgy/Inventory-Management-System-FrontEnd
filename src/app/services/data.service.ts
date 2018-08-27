@@ -9,7 +9,7 @@ export class DataService {
   private httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
-    'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTM1MzU0ODg4LCJleHAiOjE1MzUzNTg0ODh9.kUCmYMUUqefZnm3em__ckQGm4wcvwpDHCctLj0CQAx9Qrx4ZdwXYWu3aHrsauhAZwOZYbJ6yY3vhF8cF3EjamA'
+    'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTM1MzU4NjE0LCJleHAiOjE1MzUzODc0MTR9.uF0oAySK62aWKHrvxcjk9vFoTR5r68p6CNvmb7XT9Cj52EzIZ2emlefTCCVXCjqulKzSZ5ovEqmlSXPf3nuNeg'
   })
 };
   dataChange: BehaviorSubject<Item[]> = new BehaviorSubject<Item[]>([]);
@@ -59,20 +59,32 @@ export class DataService {
 
     // ADD, POST METHOD
     addItem(item: Item): void {
-    this.httpClient.post(this.API_URL, Item).subscribe(data => {
-      this.dialogData = Item;
+    console.log('Service');
+    console.log(item);
+
+//     var ii = {
+// 	"name":"Live Box 2",
+// 	"description":"Live-Box-1.02",
+// 	"price":7000,
+// 	"purchase_date":"2018-08-03"
+// };
+
+// console.log(ii);
+    this.httpClient.post(this.API_URL, item,this.httpOptions).subscribe(data => {
+      this.dialogData = item;
       // this.toasterService.showToaster('Successfully added', 3000);
       console.log("Successfully added");
       },
       (err: HttpErrorResponse) => {
       // this.toasterService.showToaster('Error occurred. Details: ' + err.name + ' ' + err.message, 8000);
-      console.log('Error occurred. Details: ' + err.name + ' ' + err.message);
+      // console.log('Error occurred. Details: ' + err.name + ' ' + err.message);
+      console.log(Item);
     });
    }
 
     // UPDATE, PUT METHOD
      updateItem(Item: Item): void {
-    this.httpClient.put(this.API_URL + Item.item_id, Item).subscribe(data => {
+    this.httpClient.put(this.API_URL + Item.id, Item,this.httpOptions).subscribe(data => {
         this.dialogData = Item;
         // this.toasterService.showToaster('Successfully edited', 3000);
         console.log('Successfully edited');
@@ -86,7 +98,7 @@ export class DataService {
 
   // DELETE METHOD
   deleteItem(id: number): void {
-    this.httpClient.delete(this.API_URL + id).subscribe(data => {
+    this.httpClient.delete(this.API_URL + id,this.httpOptions).subscribe(data => {
       console.log(data['']);
         // this.toasterService.showToaster('Successfully deleted', 3000);
         console.log('Successfully deleted');
