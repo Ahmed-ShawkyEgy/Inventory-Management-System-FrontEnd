@@ -29,11 +29,12 @@ export class DataService {
   /** CRUD METHODS */
   getAllItems(): void {
     this.httpClient.get<Item[]>(this.API_URL,this.httpOptions).subscribe(data => {
-      console.log(data);
+        data.map((item)=>{
+          item['purchase_date'] = item['purchase_date'].substr(0,10);
+        });
         this.dataChange.next(data);
       },
       (error: HttpErrorResponse) => {
-        console.log('Get all Items error!!!');
       console.log (error.name + ' ' + error.message);
       });
 
@@ -73,9 +74,10 @@ export class DataService {
    }
 
     // UPDATE, PUT METHOD
-     updateItem(Item: Item): void {
-    this.httpClient.put(this.API_URL + Item.id, Item,this.httpOptions).subscribe(data => {
-        this.dialogData = Item;
+     updateItem(item: Item): void {
+     console.log(item);
+    this.httpClient.put(this.API_URL + item.id, item,this.httpOptions).subscribe(data => {
+        this.dialogData = item;
         // this.toasterService.showToaster('Successfully edited', 3000);
         console.log('Successfully edited');
       },

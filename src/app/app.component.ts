@@ -61,13 +61,12 @@ export class AppComponent implements OnInit {
     });
   }
 
-  startEdit(i: number, id: number, title: string, state: string, url: string, created_at: string, updated_at: string) {
+  startEdit(i: number, id: number, name: string,price: string,description: string, purchase_date: string) {
     this.id = id;
     // index row is used just for debugging proposes and can be removed
     this.index = i;
-    console.log(this.index);
     const dialogRef = this.dialog.open(EditDialogComponent, {
-      data: {id: id, title: title, state: state, url: url, created_at: created_at, updated_at: updated_at}
+      data: {name: name,id:id, price:price, description:description, purchase_date: purchase_date}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -86,7 +85,7 @@ export class AppComponent implements OnInit {
     this.index = i;
     this.id = id;
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: {id: id, name:name, price: price, description: description}
+      data: {name:name, price: price, description: description}
     });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -92,11 +92,11 @@
       </mat-header-cell>
 
       <mat-cell *matCellDef="let row; let i=index;">
-        <button mat-icon-button color="accent" (click)="startEdit(i, row.id, row.title, row.state, row.url, row.created_at, row.updated_at)">
+        <button mat-icon-button color="accent" (click)="startEdit(i,  row['id'], row['name'], row['price'], row['description'], row['purchase_date'])">
           <mat-icon aria-label="Edit">edit</mat-icon>
         </button>
 
-        <button mat-icon-button color="accent" (click)="deleteItem(i, row['id'], row['name'], row['price'], row.description)">
+        <button mat-icon-button color="accent" (click)="deleteItem(i, row['id'], row['name'], row['price'], row['description'])">
           <mat-icon aria-label="Delete">delete</mat-icon>
         </button>
       </mat-cell>
