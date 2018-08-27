@@ -22,7 +22,7 @@ import {DeleteDialogComponent} from './dialogs/delete/delete.dialog.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  displayedColumns = ['id','name', 'price', 'description', 'purchase_date','actions'];
+  displayedColumns = ['actions','name', 'price', 'description', 'purchase_date','owner_email','owner_first_name','owner_last_name'];
   exampleDatabase: DataService | null;
   dataSource: ExampleDataSource | null;
   index: number;

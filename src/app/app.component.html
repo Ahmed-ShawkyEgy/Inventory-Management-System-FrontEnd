@@ -38,7 +38,8 @@
 
     <ng-container matColumnDef="price">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Price</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row['price']}}</mat-cell>
+      <mat-cell *matCellDef="let row">{{row['price'] | number}} L.E</mat-cell>
+
     </ng-container>
 
     <ng-container matColumnDef="description">
@@ -51,40 +52,43 @@
       <mat-cell *matCellDef="let row">{{row['purchase_date']}}</mat-cell>
     </ng-container>
 
+    <!-- Ownership related columns -->
 
-    <!-- ID Column -->
-    <!-- <ng-container matColumnDef="id">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
+    <ng-template #nullCell>
+      <div>-</div>
+    </ng-template>
+
+    <ng-container matColumnDef="owner_email">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Owner email</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <div *ngIf="row['owner_email'];else nullCell">
+          {{row['owner_email']}}
+        </div>
+      </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.name}}</mat-cell>
+    <ng-container matColumnDef="owner_first_name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Owner's First Name</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <div *ngIf="row['owner_email'];else nullCell">
+          {{row['owner_first_name']}}
+        </div>
+      </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="state">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>State</mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.state}}</mat-cell>
+    <ng-container matColumnDef="owner_last_name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Owner's Last Name</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <div *ngIf="row['owner_email'];else nullCell">
+          {{row['owner_last_name']}}
+        </div>
+      </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="url">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Url</mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.url}}</mat-cell>
-    </ng-container>
 
-    <ng-container matColumnDef="created_at">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Created at</mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.created_at}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="updated_at">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Updated at</mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.updated_at}}</mat-cell>
-    </ng-container> -->
 
     <!-- actions -->
-    <ng-container matColumnDef="actions">
+    <ng-container matColumnDef="actions" id="crud_col">
       <mat-header-cell *matHeaderCellDef>
         <button mat-icon-button color="primary" (click)="addNew()">
           <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
