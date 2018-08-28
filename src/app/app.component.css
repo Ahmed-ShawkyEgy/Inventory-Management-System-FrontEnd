@@ -40,6 +40,11 @@
   font-style: italic;
 }
 
+.mat-header-cell {
+  /* margin: auto; */
+  /* text-align: center; */
+}
+
 .mat-cell {
   padding: 10px;
 }

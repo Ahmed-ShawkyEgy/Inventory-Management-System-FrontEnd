@@ -9,7 +9,7 @@ export class DataService {
   private httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
-    'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTM1MzU4NjE0LCJleHAiOjE1MzUzODc0MTR9.uF0oAySK62aWKHrvxcjk9vFoTR5r68p6CNvmb7XT9Cj52EzIZ2emlefTCCVXCjqulKzSZ5ovEqmlSXPf3nuNeg'
+    'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTM1NDM3MjYwLCJleHAiOjE1MzU0NjYwNjB9.Tk5yBVwyeYv7nw3SGmOrn4lP9_0kJrV2n_NALGpobaBjOmSXc_Jy4nIlPMhU5bEIKOXOlgcxsC7syu1om1ECsw'
   })
 };
   dataChange: BehaviorSubject<Item[]> = new BehaviorSubject<Item[]>([]);

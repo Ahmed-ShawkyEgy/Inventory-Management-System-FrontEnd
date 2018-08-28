@@ -1,120 +1,128 @@
-<mat-toolbar color="primary">
-  <span>Angular MatTable CRUD Example</span>
-  <span class="spacer"></span> Reload data:
-  <button mat-icon-button (click)="refresh()">
+<div class="container">
+
+  <mat-toolbar color="primary">
+    <span>Angular MatTable CRUD Example</span>
+    <span class="spacer"></span> Reload data:
+    <button mat-icon-button (click)="refresh()">
     <mat-icon>refresh</mat-icon>
   </button>
-</mat-toolbar>
+  </mat-toolbar>
 
-<div class="container mat-elevation-z8">
+  <div class="container mat-elevation-z8">
 
-  <div class="form">
-    <mat-form-field floatPlaceholder="never" color="accent">
-      <input matInput #filter placeholder="Filter items">
-    </mat-form-field>
-  </div>
+    <div class="form">
+      <mat-form-field floatPlaceholder="never" color="accent">
+        <input matInput #filter placeholder="Filter items">
+      </mat-form-field>
+    </div>
 
-  <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+    <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
 
-    <!--- Note that these columns can be defined in any order.
+      <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
 
-    <!-- <ng-container matColumnDef="{{col}}" *ngFor="let col of displayedColumns">
+      <!-- <ng-container matColumnDef="{{col}}" *ngFor="let col of displayedColumns">
       <mat-header-cell *matHeaderCellDef mat-sort-header>{{col}}</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row[col]}}</mat-cell>
     </ng-container> -->
 
 
-    <ng-container matColumnDef="id">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>id</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row['id']}}</mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>id</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row['id']}}</mat-cell>
+      </ng-container>
 
 
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Item Name</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row['name']}}</mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Item Name</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row['name']}}</mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="price">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Price</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row['price'] | number}} L.E</mat-cell>
+      <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Price</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row['price'] | number}} L.E</mat-cell>
 
-    </ng-container>
+      </ng-container>
 
-    <ng-container matColumnDef="description">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row['description']}}</mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row['description']}}</mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="purchase_date">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Purchase Date</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row['purchase_date']}}</mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="purchase_date">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Purchase Date</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row['purchase_date']}}</mat-cell>
+      </ng-container>
 
-    <!-- Ownership related columns -->
+      <!-- Ownership related columns -->
 
-    <ng-template #nullCell>
-      <div>-</div>
-    </ng-template>
+      <ng-template #nullCell>
+        <div>-</div>
+      </ng-template>
 
-    <ng-container matColumnDef="owner_email">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Owner email</mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        <div *ngIf="row['owner_email'];else nullCell">
-          {{row['owner_email']}}
-        </div>
-      </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="owner_email">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Owner email</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <div *ngIf="row['owner_email'];else nullCell">
+            {{row['owner_email']}}
+          </div>
+        </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="owner_first_name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Owner's First Name</mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        <div *ngIf="row['owner_email'];else nullCell">
-          {{row['owner_first_name']}}
-        </div>
-      </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="owner_first_name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Owner's First Name</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <div *ngIf="row['owner_email'];else nullCell">
+            {{row['owner_first_name']}}
+          </div>
+        </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="owner_last_name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Owner's Last Name</mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        <div *ngIf="row['owner_email'];else nullCell">
-          {{row['owner_last_name']}}
-        </div>
-      </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="owner_last_name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Owner's Last Name</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <div *ngIf="row['owner_email'];else nullCell">
+            {{row['owner_last_name']}}
+          </div>
+        </mat-cell>
+      </ng-container>
 
 
 
-    <!-- actions -->
-    <ng-container matColumnDef="actions" id="crud_col">
-      <mat-header-cell *matHeaderCellDef>
-        <button mat-icon-button color="primary" (click)="addNew()">
+      <!-- actions -->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef>
+          <button mat-icon-button color="primary" (click)="addNew()">
           <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
         </button>
-      </mat-header-cell>
+        </mat-header-cell>
 
-      <mat-cell *matCellDef="let row; let i=index;">
-        <button mat-icon-button color="accent" (click)="startEdit(i,  row['id'], row['name'], row['price'], row['description'], row['purchase_date'])">
+        <mat-cell *matCellDef="let row; let i=index;">
+          <button mat-icon-button color="accent" (click)="startEdit(i,  row['id'], row['name'], row['price'], row['description'], row['purchase_date'])">
           <mat-icon aria-label="Edit">edit</mat-icon>
         </button>
 
-        <button mat-icon-button color="accent" (click)="deleteItem(i, row['id'], row['name'], row['price'], row['description'])">
+          <button mat-icon-button color="accent" (click)="deleteItem(i, row['id'], row['name'], row['price'], row['description'])">
           <mat-icon aria-label="Delete">delete</mat-icon>
         </button>
-      </mat-cell>
-    </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
+          <button mat-icon-button color="accent" (click)="changeOwner(i, row['id'])">
+          <mat-icon aria-label="Owner">person</mat-icon>
+        </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
 
 
-  <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
-    No results
+    <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+      No results
+    </div>
+
+    <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
   </div>
 
-  <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
-  </mat-paginator>
 </div>

@@ -15,6 +15,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import {AddDialogComponent} from './dialogs/add/add.dialog.component';
 import {EditDialogComponent} from './dialogs/edit/edit.dialog.component';
 import {DeleteDialogComponent} from './dialogs/delete/delete.dialog.component';
+import {OwnershipDialogComponent} from './dialogs/ownership-dialog/ownership-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -67,6 +68,26 @@ export class AppComponent implements OnInit {
     this.index = i;
     const dialogRef = this.dialog.open(EditDialogComponent, {
       data: {name: name,id:id, price:price, description:description, purchase_date: purchase_date}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 1) {
+        // When using an edit things are little different, firstly we find record inside DataService by id
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
+        // Then you update that record using data from dialogData (values you enetered)
+        this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
+        // And lastly refresh table
+        this.refreshTable();
+      }
+    });
+  }
+
+  changeOwner(i:number,id:number)
+  {
+    this.id = id;
+    this.index = i;
+    const dialogRef = this.dialog.open(OwnershipDialogComponent, {
+      data: {item_id:id}
     });
 
     dialogRef.afterClosed().subscribe(result => {
