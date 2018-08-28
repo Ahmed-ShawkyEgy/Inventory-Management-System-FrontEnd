@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 
 @Injectable()
-export class UserService {
+export class OwnershipService {
   private readonly API_URL = 'http://localhost:8080/api/';
   private httpOptions = {
   headers: new HttpHeaders({
@@ -13,10 +13,14 @@ export class UserService {
 
   constructor (private httpClient: HttpClient) {}
 
+assignItemToUser(itemId,userId)
+{
+  return this.httpClient.post(this.API_URL+"acquire",{userId:userId,itemId:itemId},this.httpOptions);
+}
 
-  getAllUsers(){
-    return this.httpClient.get(this.API_URL+"users",this.httpOptions);
-  }
-
+removeItemOwnership(itemId)
+{
+  return this.httpClient.post(this.API_URL+"discard",{itemId},this.httpOptions);
+}
 
 }

@@ -16,6 +16,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { OwnershipDialogComponent } from './dialogs/ownership-dialog/ownership-dialog.component';
 import{UserService} from './services/user.service';
+import {OwnershipService} from './services/ownership.service';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import{UserService} from './services/user.service';
   providers: [
     DataService,
     UserService,
+    OwnershipService,
   ],
   bootstrap: [AppComponent]
 })

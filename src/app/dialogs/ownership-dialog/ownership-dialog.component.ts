@@ -1,6 +1,7 @@
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Component, Inject} from '@angular/core';
 import {UserService} from '../../services/user.service';
+import {OwnershipService} from '../../services/ownership.service';
 import {FormControl, Validators} from '@angular/forms';
 
 @Component({
@@ -10,8 +11,12 @@ import {FormControl, Validators} from '@angular/forms';
 })
 export class OwnershipDialogComponent {
 
-  constructor(public dialogRef: MatDialogRef<OwnershipDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any, public userService: UserService) { }
+  constructor(
+    public dialogRef: MatDialogRef<OwnershipDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public userService: UserService,
+    public ownershipService:OwnershipService,
+            ) { }
 
               formControl = new FormControl('', [
                 Validators.required
@@ -46,10 +51,10 @@ export class OwnershipDialogComponent {
       console.log(this.data);
       if(this.data['user_id']=="-1")
       {
-          this.userService.removeItemOwnership(this.data['item_id']).subscribe();
+          this.ownershipService.removeItemOwnership(this.data['item_id']).subscribe();
       }
       else{
-        this.userService.assignItemToUser(this.data['item_id'],this.data['user_id']).subscribe(data=>{});
+        this.ownershipService.assignItemToUser(this.data['item_id'],this.data['user_id']).subscribe(data=>{});
       }
     }
   }
