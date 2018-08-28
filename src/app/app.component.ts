@@ -106,7 +106,7 @@ export class AppComponent implements OnInit {
     this.index = i;
     this.id = id;
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: {name:name, price: price, description: description}
+      data: {id:id,name:name, price: price, description: description}
     });
 
     dialogRef.afterClosed().subscribe(result => {
