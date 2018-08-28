@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {
   MatButtonModule, MatDialogModule, MatIconModule, MatInputModule, MatPaginatorModule, MatSortModule,
-  MatTableModule, MatToolbarModule,
+  MatTableModule, MatToolbarModule,MatOptionModule,MatSelectModule,
 } from '@angular/material';
 import {DataService} from './services/data.service';
 import {AddDialogComponent} from './dialogs/add/add.dialog.component';
@@ -15,7 +15,7 @@ import {DeleteDialogComponent} from './dialogs/delete/delete.dialog.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { OwnershipDialogComponent } from './dialogs/ownership-dialog/ownership-dialog.component';
-
+import{UserService} from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -38,6 +38,8 @@ import { OwnershipDialogComponent } from './dialogs/ownership-dialog/ownership-d
     MatTableModule,
     MatToolbarModule,
     MatPaginatorModule,
+    MatOptionModule,
+    MatSelectModule,
     ReactiveFormsModule,
     CommonModule,
   ],
@@ -48,7 +50,8 @@ import { OwnershipDialogComponent } from './dialogs/ownership-dialog/ownership-d
     OwnershipDialogComponent,
   ],
   providers: [
-    DataService
+    DataService,
+    UserService,
   ],
   bootstrap: [AppComponent]
 })

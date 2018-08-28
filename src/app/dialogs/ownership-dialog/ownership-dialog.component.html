@@ -3,12 +3,28 @@
 
   <form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm">
 
-    <div class="form">
+    <!-- <div class="form">
       <mat-form-field color="accent">
-        <input type="search" matInput class="form-control" placeholder="Name" [(ngModel)]="data.name" name="name" required>
-        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+      <select type="search" matInput class="form-control" placeholder="Name" [(ngModel)]="data.name" name="name" required>
+          <option value="">a</option>
+          <option value="">b</option>
+          <option value="">c</option>
+          <option value="">d</option>
+        </select>
       </mat-form-field>
-    </div>
+    </div> -->
+
+    <mat-form-field>
+      <mat-select placeholder="Owner Email" name="owner" [(ngModel)]="data.user_id">
+        <mat-option [value]="-1">
+          -
+        </mat-option>
+        <mat-option *ngFor="let user of users" [value]="user.id">
+          {{user.email}}
+        </mat-option>
+
+      </mat-select>
+    </mat-form-field>
 
 
     <!-- <div class="form">
