@@ -1,7 +1,6 @@
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Component, Inject} from '@angular/core';
-import {UserService} from '../../services/user.service';
-import {OwnershipService} from '../../services/ownership.service';
+import {DataService} from '../../services/data.service';
 import {FormControl, Validators} from '@angular/forms';
 
 @Component({
@@ -14,27 +13,20 @@ export class OwnershipDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<OwnershipDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public userService: UserService,
-    public ownershipService:OwnershipService,
+    public dataService:DataService,
             ) { }
 
               formControl = new FormControl('', [
                 Validators.required
-                // Validators.email,
               ]);
 
  users;
 
   ngOnInit() {
-    
+
   }
 
 
-    getErrorMessage() {
-      return this.formControl.hasError('required') ? 'Required field' :
-        this.formControl.hasError('email') ? 'Not a valid email' :
-          '';
-    }
 
     submit() {
       // emppty stuff
@@ -46,12 +38,14 @@ export class OwnershipDialogComponent {
 
     stopEdit(): void {
       console.log(this.data);
-      if(this.data['user_id']=="-1")
+      if(this.data['user_id']=="s")
       {
-          this.ownershipService.removeItemOwnership(this.data['item_id']).subscribe();
+        this.dataService.removeOwner(this.data['item_id']);
+          // this.ownershipService.removeItemOwnership(this.data['item_id']).subscribe();
       }
       else{
-        this.ownershipService.assignItemToUser(this.data['item_id'],this.data['user_id']).subscribe(data=>{});
+        this.dataService.addOwner(this.data['item_id'],this.data['owner']);
+        // this.ownershipService.assignItemToUser(this.data['item_id'],this.data['user_id']).subscribe(data=>{});
       }
     }
   }

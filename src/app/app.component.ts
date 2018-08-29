@@ -75,7 +75,9 @@ export class AppComponent implements OnInit {
         // When using an edit things are little different, firstly we find record inside DataService by id
         const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
         // Then you update that record using data from dialogData (values you enetered)
+        var owner = this.exampleDatabase.dataChange.value[foundIndex].owner;
         this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
+        this.exampleDatabase.dataChange.value[foundIndex].owner = owner;
         // And lastly refresh table
         this.refreshTable();
       }
@@ -191,7 +193,7 @@ export class ExampleDataSource extends DataSource<Item> {
     return Observable.merge(...displayDataChanges).map(() => {
       // Filter data
       this.filteredData = this._exampleDatabase.data.slice().filter((Item: Item) => {
-        const searchStr = (Item.name + Item.price + Item.description + Item.purchase_date+Item.owner_email+Item.owner_first_name+Item.owner_last_name).toLowerCase();
+        const searchStr = (Item.serial+Item.name + Item.price + Item.description + Item.purchase_date+Item.owner).toLowerCase();
         return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
       });
 
@@ -214,26 +216,31 @@ export class ExampleDataSource extends DataSource<Item> {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
-
+    console.log(this._sort.active);
     return data.sort((a, b) => {
       let propertyA: number | string = '' ;
       let propertyB: number | string = '';
 
       switch (this._sort.active) {
         case 'id': [propertyA, propertyB] = [a.id, b.id]; break;
+        case 'serial': [propertyA, propertyB] = [a.serial, b.serial]; break;
         case 'name': [propertyA, propertyB] = [a.name, b.name]; break;
         case 'price': [propertyA, propertyB] = [a.price, b.price]; break;
         case 'description': [propertyA, propertyB] = [a.description, b.description]; break;
         case 'purchase_date': [propertyA, propertyB] = [a.purchase_date, b.purchase_date]; break;
-        case 'owner_email': [propertyA, propertyB] = [a.purchase_date, b.purchase_date]; break;
-        case 'owner_first_name': [propertyA, propertyB] = [a.purchase_date, b.purchase_date]; break;
-        case 'owner_last_name': [propertyA, propertyB] = [a.purchase_date, b.purchase_date]; break;
+        case 'owner': [propertyA, propertyB] = [a.owner, b.owner]; break;
       }
 
-      const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
-      const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
+      let comp = (propertyA < propertyB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1);
 
-      return (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1);
+      if(propertyA==null || propertyA=='')
+        comp = 1;
+      if(propertyB==null || propertyB=='')
+        comp = -1;
+      if(propertyA==propertyB)
+        comp = 0;
+
+      return comp ;
     });
   }
 }
