@@ -23,7 +23,7 @@ import {OwnershipDialogComponent} from './dialogs/ownership-dialog/ownership-dia
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  displayedColumns = ['actions','name', 'price', 'description', 'purchase_date','owner_email','owner_first_name','owner_last_name'];
+  displayedColumns = ['actions','serial','name', 'price', 'description', 'purchase_date','owner'];
   exampleDatabase: DataService | null;
   dataSource: ExampleDataSource | null;
   index: number;
@@ -62,12 +62,12 @@ export class AppComponent implements OnInit {
     });
   }
 
-  startEdit(i: number, id: number, name: string,price: string,description: string, purchase_date: string) {
+  startEdit(i: number, id: number,serial:string, name: string,price: string,description: string, purchase_date: string) {
     this.id = id;
     // index row is used just for debugging proposes and can be removed
     this.index = i;
     const dialogRef = this.dialog.open(EditDialogComponent, {
-      data: {name: name,id:id, price:price, description:description, purchase_date: purchase_date}
+      data: {name: name,id:id,serial:serial, price:price, description:description, purchase_date: purchase_date}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -103,11 +103,11 @@ export class AppComponent implements OnInit {
     });
   }
 
-  deleteItem(i: number, id: number, name: string, price: number, description: string) {
+  deleteItem(i: number, id: number,serial:string, name: string, price: number, description: string) {
     this.index = i;
     this.id = id;
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: {id:id,name:name, price: price, description: description}
+      data: {id:id,name:name,serial:serial, price: price, description: description}
     });
 
     dialogRef.afterClosed().subscribe(result => {

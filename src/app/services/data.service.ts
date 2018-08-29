@@ -56,8 +56,6 @@ export class DataService {
 
 
 
-/* REAL LIFE CRUD Methods I've used in my projects. ToasterService uses Material Toasts for displaying messages:*/
-
     // ADD, POST METHOD
     addItem(item: Item): void {
 
