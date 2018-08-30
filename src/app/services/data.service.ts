@@ -5,7 +5,7 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 
 @Injectable()
 export class DataService {
-  private readonly API_URL = 'http://localhost:8080/api/items/';
+  private readonly API_URL = 'http://10.1.1.6:8080/api/items/';
   private httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
