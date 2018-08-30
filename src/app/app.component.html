@@ -1,7 +1,7 @@
 <div class="container">
 
-  <mat-toolbar color="primary">
-    <span>Angular MatTable CRUD Example</span>
+  <mat-toolbar color="warn">
+    <span>Orange Inventory Management System</span>
     <span class="spacer"></span> Reload data:
     <button mat-icon-button (click)="refresh()">
     <mat-icon>refresh</mat-icon>
@@ -33,6 +33,15 @@
       </ng-container>
 
 
+      <ng-container matColumnDef="serial">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Serial code</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <div *ngIf="row['serial'];else nullCell">
+            {{row['serial']}}
+          </div>
+        </mat-cell>
+      </ng-container>
+
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Item Name</mat-header-cell>
         <mat-cell *matCellDef="let row">{{row['name']}}</mat-cell>
@@ -59,6 +68,15 @@
       <ng-template #nullCell>
         <div>-</div>
       </ng-template>
+
+      <ng-container matColumnDef="owner">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Owner name</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <div *ngIf="row['owner'];else nullCell">
+            {{row['owner']}}
+          </div>
+        </mat-cell>
+      </ng-container>
 
       <ng-container matColumnDef="owner_email">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Owner email</mat-header-cell>
@@ -98,11 +116,11 @@
         </mat-header-cell>
 
         <mat-cell *matCellDef="let row; let i=index;">
-          <button mat-icon-button color="accent" (click)="startEdit(i,  row['id'], row['name'], row['price'], row['description'], row['purchase_date'])">
+          <button mat-icon-button color="accent" (click)="startEdit(i,  row['id'],row['serial'], row['name'], row['price'], row['description'], row['purchase_date'])">
           <mat-icon aria-label="Edit">edit</mat-icon>
         </button>
 
-          <button mat-icon-button color="accent" (click)="deleteItem(i, row['id'], row['name'], row['price'], row['description'])">
+          <button mat-icon-button color="accent" (click)="deleteItem(i, row['id'],row['serial'], row['name'], row['price'], row['description'])">
           <mat-icon aria-label="Delete">delete</mat-icon>
         </button>
 

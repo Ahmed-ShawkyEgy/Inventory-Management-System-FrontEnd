@@ -9,7 +9,6 @@ export class DataService {
   private httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
-    'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTM1NDM3MjYwLCJleHAiOjE1MzU0NjYwNjB9.Tk5yBVwyeYv7nw3SGmOrn4lP9_0kJrV2n_NALGpobaBjOmSXc_Jy4nIlPMhU5bEIKOXOlgcxsC7syu1om1ECsw'
   })
 };
   dataChange: BehaviorSubject<Item[]> = new BehaviorSubject<Item[]>([]);
@@ -56,8 +55,6 @@ export class DataService {
 
 
 
-/* REAL LIFE CRUD Methods I've used in my projects. ToasterService uses Material Toasts for displaying messages:*/
-
     // ADD, POST METHOD
     addItem(item: Item): void {
 
@@ -99,5 +96,27 @@ export class DataService {
         console.log('Error occurred. Details: ' + err.name + ' ' + err.message);
       }
     );
+  }
+
+  removeOwner(id:number)
+  {
+    this.httpClient.post(this.API_URL+'discard/'+id,{},this.httpOptions).subscribe();
+  }
+
+  addOwner(id:number,owner:string)
+  {
+    this.httpClient.post(this.API_URL+'acquire',
+    {
+    	"ownerName":owner,
+    	"itemId":id
+    },
+    this.httpOptions
+  ).subscribe(data=>{
+    console.log(data);
+
+
+
+
+  });
   }
 }

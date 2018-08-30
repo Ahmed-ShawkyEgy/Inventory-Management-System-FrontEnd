@@ -23,7 +23,7 @@ import {OwnershipDialogComponent} from './dialogs/ownership-dialog/ownership-dia
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  displayedColumns = ['actions','name', 'price', 'description', 'purchase_date','owner_email','owner_first_name','owner_last_name'];
+  displayedColumns = ['actions','serial','name', 'price', 'description', 'purchase_date','owner'];
   exampleDatabase: DataService | null;
   dataSource: ExampleDataSource | null;
   index: number;
@@ -62,12 +62,12 @@ export class AppComponent implements OnInit {
     });
   }
 
-  startEdit(i: number, id: number, name: string,price: string,description: string, purchase_date: string) {
+  startEdit(i: number, id: number,serial:string, name: string,price: string,description: string, purchase_date: string) {
     this.id = id;
     // index row is used just for debugging proposes and can be removed
     this.index = i;
     const dialogRef = this.dialog.open(EditDialogComponent, {
-      data: {name: name,id:id, price:price, description:description, purchase_date: purchase_date}
+      data: {name: name,id:id,serial:serial, price:price, description:description, purchase_date: purchase_date}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -75,7 +75,9 @@ export class AppComponent implements OnInit {
         // When using an edit things are little different, firstly we find record inside DataService by id
         const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
         // Then you update that record using data from dialogData (values you enetered)
+        var owner = this.exampleDatabase.dataChange.value[foundIndex].owner;
         this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
+        this.exampleDatabase.dataChange.value[foundIndex].owner = owner;
         // And lastly refresh table
         this.refreshTable();
       }
@@ -93,20 +95,21 @@ export class AppComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result === 1) {
         // When using an edit things are little different, firstly we find record inside DataService by id
-        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
+        // const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id);
         // Then you update that record using data from dialogData (values you enetered)
-        this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
+        // this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
         // And lastly refresh table
+        this.refresh();
         this.refreshTable();
       }
     });
   }
 
-  deleteItem(i: number, id: number, name: string, price: number, description: string) {
+  deleteItem(i: number, id: number,serial:string, name: string, price: number, description: string) {
     this.index = i;
     this.id = id;
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: {name:name, price: price, description: description}
+      data: {id:id,name:name,serial:serial, price: price, description: description}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -190,7 +193,7 @@ export class ExampleDataSource extends DataSource<Item> {
     return Observable.merge(...displayDataChanges).map(() => {
       // Filter data
       this.filteredData = this._exampleDatabase.data.slice().filter((Item: Item) => {
-        const searchStr = (Item.name + Item.price + Item.description + Item.purchase_date+Item.owner_email+Item.owner_first_name+Item.owner_last_name).toLowerCase();
+        const searchStr = (Item.serial+Item.name + Item.price + Item.description + Item.purchase_date+Item.owner).toLowerCase();
         return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
       });
 
@@ -213,26 +216,31 @@ export class ExampleDataSource extends DataSource<Item> {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
-
+    console.log(this._sort.active);
     return data.sort((a, b) => {
       let propertyA: number | string = '' ;
       let propertyB: number | string = '';
 
       switch (this._sort.active) {
         case 'id': [propertyA, propertyB] = [a.id, b.id]; break;
+        case 'serial': [propertyA, propertyB] = [a.serial, b.serial]; break;
         case 'name': [propertyA, propertyB] = [a.name, b.name]; break;
         case 'price': [propertyA, propertyB] = [a.price, b.price]; break;
         case 'description': [propertyA, propertyB] = [a.description, b.description]; break;
         case 'purchase_date': [propertyA, propertyB] = [a.purchase_date, b.purchase_date]; break;
-        case 'owner_email': [propertyA, propertyB] = [a.purchase_date, b.purchase_date]; break;
-        case 'owner_first_name': [propertyA, propertyB] = [a.purchase_date, b.purchase_date]; break;
-        case 'owner_last_name': [propertyA, propertyB] = [a.purchase_date, b.purchase_date]; break;
+        case 'owner': [propertyA, propertyB] = [a.owner, b.owner]; break;
       }
 
-      const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
-      const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
+      let comp = (propertyA < propertyB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1);
 
-      return (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1);
+      if(propertyA==null || propertyA=='')
+        comp = 1;
+      if(propertyB==null || propertyB=='')
+        comp = -1;
+      if(propertyA==propertyB)
+        comp = 0;
+
+      return comp ;
     });
   }
 }
